@@ -1,0 +1,71 @@
+# 📘 Week 7 – Day 1
+
+## 🔗 Linked List | Remove Duplicates from Sorted List (LeetCode 83)
+
+---
+
+## 📌 Problem Statement
+
+Given the `head` of a **sorted singly linked list**, delete all duplicates such that each element appears **only once**. Return the linked list **sorted**.
+
+🔗 **LeetCode Problem:** 83. Remove Duplicates from Sorted List
+
+---
+
+## 🧠 Key Observation
+
+* The linked list is **already sorted**
+* Duplicate values will always be **adjacent**
+* We only need to compare the **current node** with the **next node**
+
+---
+
+## 💡 Approach (Iterative – One Pointer)
+
+1. Start with a pointer `curr` at the head of the list
+2. Traverse the list while `curr` and `curr->next` are not `NULL`
+3. If current value equals next value:
+
+   * Skip the duplicate node by updating links
+4. Else:
+
+   * Move `curr` forward
+5. Return the original head
+
+---
+
+## ✨ Example
+
+**Input:**
+
+```
+1 → 1 → 2 → 3 → 3
+```
+
+**Output:**
+
+```
+1 → 2 → 3
+```
+
+---
+
+## 💻 C++ Implementation
+
+```cpp
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        ListNode* temp = head;
+
+        while (temp != NULL && temp->next != NULL) {
+            if (temp->val == temp->next->val) {
+                temp->next = temp->next->next; 
+            } else {
+                temp = temp->next; 
+            }
+        }
+        return head;
+    }
+};
+```
