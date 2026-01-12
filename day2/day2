@@ -1,0 +1,46 @@
+# 📘 Week 7 – Day 2: Linked List Cycle II (LeetCode 142)
+
+## 🔍 Problem Overview
+
+**LeetCode 142 – Linked List Cycle II**
+
+Given the head of a linked list, return the node where the cycle begins. If there is no cycle, return `NULL`.
+---
+
+## 💡 Key Concept
+
+This problem is a classic application of **Floyd’s Cycle Detection Algorithm (Tortoise and Hare Algorithm)**.
+
+### Why Floyd’s Algorithm?
+
+* Uses **two pointers** (slow & fast)
+* Works in **O(n)** time
+* Uses **O(1)** extra space
+
+---
+## 💻 C++ Implementation
+
+```cpp
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        ListNode *fast=head;
+        ListNode *slow=head;
+        bool iscycle=false;
+        while(fast!=NULL && fast->next!=NULL) {
+            slow=slow->next;
+            fast=fast->next->next;
+            if(slow==fast){
+                iscycle=true;
+                break;
+            }
+        }
+        if(!iscycle) return NULL;
+    slow=head;
+    while(fast!=slow){
+        slow=slow->next;
+        fast=fast->next;
+    }
+    return slow;
+    }
+};
