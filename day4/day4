@@ -1,0 +1,45 @@
+# Week 7 – Day 4  
+## Copy List with Random Pointer (LeetCode 138)
+
+### 🔍 Problem Statement
+You are given a linked list where each node contains:
+- a `next` pointer
+- a `random` pointer (which may point to any node or NULL)
+
+Your task is to **create a deep copy** of the list.
+
+---
+``cpp
+  
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        if(head==NULL) return NULL;
+        unordered_map<Node*,Node*> m;
+        Node* NewHead = new Node(head->val);
+        Node* oldtemp = head->next;
+        Node* newtemp = NewHead;
+        m[head] = NewHead;
+        while(oldtemp!=NULL){
+            Node* copynode = new Node(oldtemp->val);
+            m[oldtemp] = copynode;
+            newtemp->next=copynode;
+            newtemp=newtemp->next;
+            oldtemp=oldtemp->next;
+        }
+        oldtemp = head;
+        newtemp = NewHead;
+        while(oldtemp!=NULL){
+           if(oldtemp->random!=NULL){
+             newtemp->random = m[oldtemp->random];
+           }
+           else{
+            newtemp->random = NULL;
+           }
+            oldtemp=oldtemp->next;
+            newtemp=newtemp->next;
+        }
+        return NewHead;
+             
+    }
+};
