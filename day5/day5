@@ -1,0 +1,73 @@
+# Week 7 – Day 5  
+## Flatten a Multilevel Doubly Linked List (LeetCode 430)
+
+
+### 🧠 Problem Summary
+You are given a **multilevel doubly linked list** where:
+- Each node has `next`, `prev`, and `child` pointers.
+- The child pointer may point to a separate doubly linked list.
+
+The task is to **flatten the list** so that:
+- All nodes appear in a **single-level doubly linked list**
+- The order follows **depth-first traversal**
+- All `child` pointers are set to `NULL`
+
+---
+
+### 💡 Approach (DFS / Recursion)
+1. Traverse the list node by node.
+2. If a node has a `child`:
+   - Recursively flatten the child list.
+   - Insert the flattened child list between the current node and its `next`.
+3. Properly reconnect `prev` and `next` pointers.
+4. Set `child = NULL` after flattening.
+
+### 🧪 Example
+**Input:**  
+1 - 2 - 3  
+   |  
+   7 - 8  
+
+**Output:**  
+1 - 2 - 3 - 7 - 8
+
+```cpp
+  /*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* prev;
+    Node* next;
+    Node* child;
+};
+*/
+
+class Solution {
+public:
+    Node* flatten(Node* head) {
+        if(head==NULL) return head;
+        Node* curr = head;
+        while(curr!=NULL){
+            if(curr->child!=NULL){
+                Node* NEXT = curr->next;
+                curr->next = flatten(curr->child);
+
+                curr->next->prev = curr;
+                curr->child=NULL;
+
+                while(curr->next!=NULL){
+                    curr = curr->next;
+                }
+
+                if(NEXT!=NULL){
+                    curr->next = NEXT;
+                    NEXT->prev = curr;
+                }
+            }
+            curr=curr->next;
+        }
+        return head;
+    }
+};
+
