@@ -1,0 +1,71 @@
+# Week 7 – Day 7  
+## LeetCode 234: Palindrome Linked List
+
+---
+
+## 🔗 Problem Statement
+Given the head of a singly linked list, determine whether it is a palindrome.
+
+A linked list is a palindrome if it reads the same forward and backward.
+
+---
+
+## 💡 Approach (Two Pointer + Reverse)
+
+Since a singly linked list does not allow backward traversal, we use the following strategy:
+
+1. Find the middle of the linked list using slow and fast pointers
+2. Reverse the second half of the list
+3. Compare the first half and the reversed second half
+4. If all corresponding values match, the list is a palindrome
+
+---
+
+## 🧠 Key Insight
+Intersection and palindrome checks in linked lists depend on **node traversal**, not indexing, because linked lists do not support random access.
+
+---
+
+## ⏱ Complexity Analysis
+- **Time Complexity:** O(n)
+- **Space Complexity:** O(1) (only pointers are used)
+
+---
+
+## ✅ C++ Solution
+
+```cpp
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        if (!head || !head->next) return true;
+
+        // Step 1: Find middle
+        ListNode* slow = head;
+        ListNode* fast = head;
+        while (fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+
+        // Step 2: Reverse second half
+        ListNode* prev = NULL;
+        while (slow) {
+            ListNode* nextNode = slow->next;
+            slow->next = prev;
+            prev = slow;
+            slow = nextNode;
+        }
+
+        // Step 3: Compare both halves
+        ListNode* left = head;
+        ListNode* right = prev;
+        while (right) {
+            if (left->val != right->val) return false;
+            left = left->next;
+            right = right->next;
+        }
+
+        return true;
+    }
+};
